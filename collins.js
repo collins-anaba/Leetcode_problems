@@ -268,26 +268,46 @@ function threeSum(nums) {
     return result;
 }
 
-//Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
-function romanToInt(s) {
-    let map = {
-        I: 1,
-        V: 5,
-        X: 10,
-        L: 50,
-        C: 100,
-        D: 500,
-        M: 1000
-    };
-    let result = 0;
-    for (let i = 0; i < s.length; i++) {
-        let cur = s[i];
-        let next = s[i + 1];
-        if (map[cur] < map[next]) {
-            result -= map[cur];
+//Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
+function mergeTwoLists(l1, l2) {
+    let result = new ListNode(0);
+    let head = result;
+    while (l1 && l2) {
+        if (l1.val < l2.val) {
+            result.next = l1;
+            l1 = l1.next;
+        } else {
+            result.next = l2;
+            l2 = l2.next;
         }
-        else {  
-            result += map[cur];
-        }   
+        result = result.next;
     }
-}       
+    result.next = l1 || l2;
+    return head.next;
+}
+//Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+function letterCombinations(digits) {
+    let result = [];
+    let map = {
+        2: 'abc',
+        3: 'def',
+        4: 'ghi',
+        5: 'jkl',
+        6: 'mno',
+        7: 'pqrs',
+        8: 'tuv',
+        9: 'wxyz'
+    };
+    let helper = (str, index) => {
+        if (index === digits.length) {
+            result.push(str);
+            return;
+        }
+        let letters = map[digits[index]];
+        for (let i = 0; i < letters.length; i++) {
+            helper(str + letters[i], index + 1);
+        }
+    };
+    helper('', 0);
+    return result;
+}

@@ -311,3 +311,63 @@ function letterCombinations(digits) {
     helper('', 0);
     return result;
 }
+//Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+function removeDuplicates(nums) {
+    let i = 0;
+    for (let j = 1; j < nums.length; j++) {
+        if (nums[i] !== nums[j]) {
+            i++;
+            nums[i] = nums[j];
+        }
+    }
+    return i + 1;
+}
+//Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes 
+function swapPairs(head) {
+    if (!head || !head.next) {
+        return head;
+    }
+    let next = head.next;
+    head.next = swapPairs(next.next);
+    next.next = head;
+    return next;
+}
+//Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+function nextPermutation(nums) {
+    let i = nums.length - 1;
+    while (i > 0 && nums[i - 1] >= nums[i]) {
+        i--;
+    }
+    if (i === 0) {
+        return nums.reverse();
+    }
+    let j = nums.length - 1;
+    while (nums[j] <= nums[i - 1]) {
+        j--;
+    }
+    let temp = nums[i - 1];
+    nums[i - 1] = nums[j];
+    nums[j] = temp;
+    return nums.slice(i).reverse();
+}
+//Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+function isValid(s) {
+    let stack = [];
+    let map = {
+        '(': ')',
+        '{': '}',
+        '[': ']'
+    };
+    for (let i = 0; i < s.length; i++) {
+        let c = s[i];
+        if (map[c]) {
+            stack.push(c);
+        } else {
+            if (stack.pop() !== map[c]) {
+                return false;
+            }
+        }
+    }
+    return stack.length === 0;
+}
+
